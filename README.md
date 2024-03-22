@@ -71,12 +71,16 @@
 - "총계좌수", "총상환원금", "총상환이자", "연체계좌수", "총연체금액"변수들은 drop(필요 없거나 많이 사용된 변수라서)
 - 대출목적 변수 binary encoding 수행
 - 수치형 변수 모두 standard scaler를 통해 표준화 처리
-- 
+- lda를 통해 나온 중요 변수 2개 독립변수로 추가
+- 종속변수 문자열 범주를 라벨 인코딩을 통해 정수형으로 변환
 
 
 # 모델링
-- 
+- parameter(n_estimators=100, max_depth=10, min_samples_split=2, min_samples_leaf=1, random_state=2024)를 설정한 후 randomforest 모델 fitting(macro f1: 약 0.92)
+- parameter( max_depth=10, min_samples_split=2, min_samples_leaf=1, random_state=2024)를 설정한 후 decisiontree 모델 fitting(macro f1: 약 0.9076)
+- parameter(random_state=2024, n_estimators=1000, learning_rate=0.01, depth=10,l2_leaf_reg=3, metric_period=1000, verbose=1000)를 설정한 후 catboost 모델 fitting(macro f1: 약 0.87)
+- decision tree parameter(max_depth=15, min_samples_split=5, min_samples_leaf=2, random_state=2024),  xgboost parameter(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=2024), lgbm parameter(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=2024)를 설정하고 stacking model(최종모형 randomforest(n_estimators=100,random_state=2024)) fitting(macro f1: 약 0.95) -> 최종 모델 선정
 
 
 # 느낀점
-- 
+- 이 데이터는 수치형 변수 데이터가 많은데 이 수치형 변수들의 다양한 조합으로 feature engineering을 수행하여 다양한 변수를 생성했기 때문에 좋은 결과가 낭로 수 있었다고 생각한다. 다음 대회 때도 다양한 변수들의 조합으로 적절한 feature engineering을 해야겠다는 생각을 했다.
